@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0d0f14">
+  <title>Wireless Mouse & Keyboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container" id="app">
+    <!-- Top Navigation Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="app-logo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="7"></rect>
+            <path d="M12 6v4"></path>
+          </svg>
+          <span class="app-title">AirMouse</span>
+        </div>
+        <div class="status-badge" id="statusBadge">
+          <span class="status-dot"></span>
+          <span class="status-text" id="statusText">Connecting...</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Toggle Keyboard / Full Mouse Mode -->
+        <button class="icon-btn" id="btnToggleKb" title="Toggle Keyboard">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"></path>
+          </svg>
+        </button>
+
+        <!-- Fullscreen Button -->
+        <button class="icon-btn" id="btnFullscreen" title="Fullscreen">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        </button>
+
+        <!-- QR Code / Share Info -->
+        <button class="icon-btn" id="btnShowQr" title="Show QR Code">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+        </button>
+
+        <!-- Settings Button -->
+        <button class="icon-btn" id="btnSettings" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN BODY -->
+    <main class="main-content">
+      <!-- TOP SECTION: MOUSE PAD (55-60% of viewport) -->
+      <section class="touchpad-section" id="touchpadSection">
+        <div class="touchpad" id="touchpad">
+          <div class="touchpad-grid"></div>
+          
+          <!-- Touch feedback ripple container -->
+          <div class="ripple-layer" id="rippleLayer"></div>
+
+          <!-- Touchpad center watermark/hint -->
+          <div class="touchpad-hint">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2a7 7 0 0 0-7 7v6a7 7 0 0 0 14 0V9a7 7 0 0 0-7-7z"></path>
+              <path d="M12 6v4"></path>
+            </svg>
+            <span>Touchpad</span>
+            <div class="gesture-tip">1 Finger: Move &bull; Tap: Left Click &bull; 2-Finger: Scroll/Right Click</div>
+          </div>
+        </div>
+
+        <!-- Mouse Action Buttons (Left / Middle / Right Click) -->
+        <div class="mouse-buttons-bar">
+          <button class="mouse-btn left-click-btn" id="btnLeftClick">
+            <span class="btn-subtext">Tap / Hold</span>
+            <span class="btn-maintext">LEFT CLICK</span>
+          </button>
+          <button class="mouse-btn middle-click-btn" id="btnMiddleClick" title="Middle Click">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 5v4m0 6v4"></path>
+            </svg>
+          </button>
+          <button class="mouse-btn right-click-btn" id="btnRightClick">
+            <span class="btn-subtext">Tap</span>
+            <span class="btn-maintext">RIGHT CLICK</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- BOTTOM SECTION: KEYBOARD CONTROLS (40-45% of viewport) -->
+      <section class="keyboard-section" id="keyboardSection">
+        <!-- Native Mobile Keyboard Input Bar -->
+        <div class="typing-bar">
+          <div class="input-wrapper">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+            <input type="text" id="mobileInput" placeholder="Tap here to type using mobile keyboard..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="clear-input-btn" id="btnClearInput" title="Clear">
+              &times;
+            </button>
+          </div>
+          <button class="send-text-btn" id="btnSendText" title="Send Enter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 10 4 15 9 20"></polyline>
+              <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Computer Keys Grid -->
+        <div class="keys-container">
+          <!-- Row 1: System / Modifier Keys -->
+          <div class="key-row">
+            <button class="key-btn key-special" data-key="esc">Esc</button>
+            <button class="key-btn key-special" data-key="tab">Tab</button>
+            <button class="key-btn key-modifier" data-modifier="ctrl" id="keyCtrl">Ctrl</button>
+            <button class="key-btn key-modifier" data-modifier="alt" id="keyAlt">Alt</button>
+            <button class="key-btn key-modifier" data-modifier="shift" id="keyShift">Shift</button>
+            <button class="key-btn key-special" data-key="win" title="Windows Key">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Row 2: Action Keys -->
+          <div class="key-row">
+            <button class="key-btn key-action" data-key="backspace">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                <line x1="18" y1="9" x2="12" y2="15"></line>
+                <line x1="12" y1="9" x2="18" y2="15"></line>
+              </svg>
+              <span>Bksp</span>
+            </button>
+            <button class="key-btn key-space" data-key="space">Space</button>
+            <button class="key-btn key-action key-enter" data-key="enter">
+              <span>Enter</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 10 4 15 9 20"></polyline>
+                <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+              </svg>
+            </button>
+            <button class="key-btn key-action" data-key="delete">Del</button>
+          </div>
+
+          <!-- Row 3: Shortcuts & Arrows -->
+          <div class="key-row shortcut-arrow-row">
+            <!-- Quick Shortcuts Group -->
+            <div class="shortcut-group">
+              <button class="key-btn key-shortcut" data-shortcut="ctrl+z">Undo</button>
+              <button class="key-btn key-shortcut" data-shortcut="ctrl+c">Copy</button>
+              <button class="key-btn key-shortcut" data-shortcut="ctrl+v">Paste</button>
+              <button class="key-btn key-shortcut" data-shortcut="ctrl+a">Select</button>
+            </div>
+
+            <!-- Arrow Keys Cluster -->
+            <div class="arrow-cluster">
+              <button class="key-btn arrow-btn" data-key="arrowup" title="Up">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="18 15 12 9 6 15"></polyline>
+                </svg>
+              </button>
+              <div class="arrow-bottom-row">
+                <button class="key-btn arrow-btn" data-key="arrowleft" title="Left">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <button class="key-btn arrow-btn" data-key="arrowdown" title="Down">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+                <button class="key-btn arrow-btn" data-key="arrowright" title="Right">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4: Volume & Media Controls (Compact) -->
+          <div class="key-row media-row">
+            <button class="key-btn key-media" data-key="volume_mute" title="Mute">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            </button>
+            <button class="key-btn key-media" data-key="volume_down" title="Vol Down">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <button class="key-btn key-media" data-key="volume_up" title="Vol Up">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            </button>
+            <button class="key-btn key-media" data-key="media_play_pause" title="Play/Pause">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+            <button class="key-btn key-shortcut" data-shortcut="win+d" title="Show Desktop">Win+D</button>
+            <button class="key-btn key-shortcut" data-shortcut="alt+tab" title="Switch Windows">Alt+Tab</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Desktop Companion Card (Shows on wide screens/PC browsers) -->
+    <div class="desktop-banner" id="desktopBanner">
+      <div class="desktop-card">
+        <div class="desktop-header">
+          <h2>📱 Connect Your Phone</h2>
+          <button class="close-banner-btn" id="btnCloseDesktopBanner">&times;</button>
+        </div>
+        <p class="desktop-subtitle">Scan this QR code with your mobile camera to control this computer:</p>
+        <div class="qr-box">
+          <img id="bannerQrImg" src="" alt="Server QR Code">
+        </div>
+        <div class="url-badge">
+          <span id="bannerServerUrl">Loading...</span>
+          <button class="copy-url-btn" id="btnCopyUrl">Copy</button>
+        </div>
+        <div class="connection-steps">
+          <div class="step-item"><span>1</span> Ensure phone is connected to the same Wi-Fi</div>
+          <div class="step-item"><span>2</span> Open camera & tap the scanned link</div>
+          <div class="step-item"><span>3</span> Enjoy instant wireless mouse & typing!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Code Modal (Accessible on Mobile too) -->
+    <div class="modal-overlay" id="qrModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Connection Info</h3>
+          <button class="close-modal-btn" id="btnCloseQrModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="qr-box">
+            <img id="modalQrImg" src="" alt="QR Code">
+          </div>
+          <p class="modal-info-text">Server URL:</p>
+          <div class="url-badge">
+            <span id="modalServerUrl">Loading...</span>
+          </div>
+          <p class="modal-hint">Ensure both devices are on the same Wi-Fi network.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Settings</h3>
+          <button class="close-modal-btn" id="btnCloseSettingsModal">&times;</button>
+        </div>
+        <div class="modal-body settings-list">
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Mouse Sensitivity</span>
+              <span class="setting-val" id="valSensitivity">1.2x</span>
+            </div>
+            <input type="range" id="rangeSensitivity" min="0.4" max="3.0" step="0.1" value="1.2">
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Scroll Speed</span>
+              <span class="setting-val" id="valScroll">1.0x</span>
+            </div>
+            <input type="range" id="rangeScroll" min="0.5" max="3.0" step="0.1" value="1.0">
+          </div>
+
+          <div class="setting-item toggle-item">
+            <div class="setting-label">
+              <span>Invert Scroll Direction</span>
+              <small>Natural (macOS) vs Traditional</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="checkInvertScroll">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item toggle-item">
+            <div class="setting-label">
+              <span>Haptic Feedback (Vibration)</span>
+              <small>Tactile feedback on taps & clicks</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="checkHaptics" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item toggle-item">
+            <div class="setting-label">
+              <span>Cursor Acceleration</span>
+              <small>Accelerates on fast flicks</small>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="checkAcceleration" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
